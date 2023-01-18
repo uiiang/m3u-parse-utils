@@ -1,5 +1,5 @@
-import 'package:m3u/m3u.dart';
 import 'package:meta/meta.dart';
+import 'package:m3uparse/src/entries/generic_entry.dart';
 
 /// Helper functions around categories and extra properties on playlist files.
 class PlaylistHelper {
