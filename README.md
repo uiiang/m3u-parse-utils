@@ -1,5 +1,7 @@
 # M3U format parser
 
+fork: 增加判断当前行是否为url，如果不是继续解析直到找到url
+
 Simple parser for [M3U](https://en.wikipedia.org/wiki/M3U) and 
 [M3U_Plus](https://en.wikipedia.org/wiki/M3U) files. 
 
