@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:m3u/m3u.dart';
 import 'package:test/test.dart';
 
@@ -23,6 +25,10 @@ void main() {
     final playlist =
         await parseFile(await FileUtils.loadFile(fileName: 'plus/multi_line'));
 
-    expect(playlist.length, 5);
+    playlist.forEach((element) {
+      print('link ${element.title}');
+      expect(element.link.startsWith('https://'), true);
+    });
+    expect(playlist.length, 6);
   });
 }

@@ -60,7 +60,7 @@ class M3uParser {
         _nextLineExpected = LineParsedType.source;
         break;
       case LineParsedType.source:
-        if (_currentInfoEntry == null) {
+        if (_currentInfoEntry == null || !isURL(line)) {
           _nextLineExpected = LineParsedType.info;
           _parseLine(line);
           break;
@@ -112,5 +112,27 @@ class M3uParser {
 
     return EntryInformation(
         title: title!, attributes: attributes, duration: duration);
+  }
+
+  /// is m3u ext
+  bool isM3uInfo(String input) => input.toUpperCase().startsWith('#EXTINF');
+
+  /// Regex of url.
+  final String regexUrl = '[a-zA-Z]+://[^\\s]*';
+
+  /// Return whether input matches regex of url.
+  bool isURL(String input) {
+    if (input.startsWith('http') ||
+        input.startsWith('udp') ||
+        input.startsWith('ftp')) {
+      return matches(regexUrl, input);
+    } else {
+      return false;
+    }
+  }
+
+  bool matches(String regex, String input) {
+    if (input.isEmpty) return false;
+    return RegExp(regex).hasMatch(input);
   }
 }
