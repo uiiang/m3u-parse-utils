@@ -1,4 +1,4 @@
-import 'package:m3uparse/src/exception/invalid_format_exception.dart';
+import 'package:m3u/src/exception/invalid_format_exception.dart';
 
 /// Enum like class to represent the available parse types of the library.
 class FileTypeHeader {

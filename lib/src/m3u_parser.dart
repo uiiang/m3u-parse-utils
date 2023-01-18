@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:m3uparse/src/entries/generic_entry.dart';
-import 'package:m3uparse/src/entry_information.dart';
-import 'package:m3uparse/src/exception/invalid_format_exception.dart';
-import 'package:m3uparse/src/file_type_header.dart';
-import 'package:m3uparse/src/line_parsed_type.dart';
+import 'package:m3u/src/entries/generic_entry.dart';
+import 'package:m3u/src/entry_information.dart';
+import 'package:m3u/src/exception/invalid_format_exception.dart';
+import 'package:m3u/src/file_type_header.dart';
+import 'package:m3u/src/line_parsed_type.dart';
 
 /// A parser of M3U documents.
 ///
