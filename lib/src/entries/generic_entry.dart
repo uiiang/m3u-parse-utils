@@ -12,8 +12,13 @@ class M3uGenericEntry {
   M3uGenericEntry(
       {required this.title,
       required this.attributes,
-      required this.link,
+      this.link = '',
       this.duration});
+
+  factory M3uGenericEntry.fromHeaderEntryInformation(
+          {required EntryInformation information}) =>
+      M3uGenericEntry(
+          title: information.title, attributes: information.attributes);
 
   /// Constructor from an [EntryInformation] that only hold the title
   /// and attributes of a track/stream

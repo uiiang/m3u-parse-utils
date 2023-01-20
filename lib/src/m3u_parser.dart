@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:m3u/src/entries/entry_warp.dart';
 import 'package:m3u/src/entries/generic_entry.dart';
 import 'package:m3u/src/entry_information.dart';
 import 'package:m3u/src/exception/invalid_format_exception.dart';
@@ -17,6 +18,9 @@ class M3uParser {
   /// Parse a document represented by the [source]
   ///
   /// [source] a string value of the full document.
+  static Future<M3uGenericEntryWarp> parseWrap(String source) async =>
+      M3uParser()._parseWarp(source);
+
   static Future<List<M3uGenericEntry>> parse(String source) async =>
       M3uParser()._parse(source);
 
@@ -30,8 +34,11 @@ class M3uParser {
   /// Current holder of the information about the current Track
   EntryInformation? _currentInfoEntry;
 
+  EntryInformation? _headerInfoEntry;
+
   /// Result accumulator of the parser.
   final List<M3uGenericEntry> _playlist = <M3uGenericEntry>[];
+  M3uGenericEntryWarp? _entryWarp;
 
   /// Main parse function
   ///
@@ -42,13 +49,23 @@ class M3uParser {
   /// Can [throws] [InvalidFormatException] if the file is not supported.
   Future<List<M3uGenericEntry>> _parse(String source) async {
     LineSplitter.split(source).forEach(_parseLine);
-    return _playlist;
+    return _playlist!;
+  }
+
+  Future<M3uGenericEntryWarp> _parseWarp(String source) async {
+    LineSplitter.split(source).forEach(_parseLine);
+    return _entryWarp!;
   }
 
   void _parseLine(String line) {
     switch (_nextLineExpected) {
       case LineParsedType.header:
         _fileType = FileTypeHeader.fromString(line);
+        _headerInfoEntry = _parseInfoRow(line, _fileType);
+        // print('${parsedEntry!.attributes.length}');
+        // parsedEntry!.attributes.entries.forEach((element) {
+        //   print('header key ${element.key} value = ${element.value}');
+        // });
         _nextLineExpected = LineParsedType.info;
         break;
       case LineParsedType.info:
@@ -71,6 +88,10 @@ class M3uParser {
         _nextLineExpected = LineParsedType.info;
         break;
     }
+    _entryWarp = M3uGenericEntryWarp(
+        headerEntry: M3uGenericEntry.fromHeaderEntryInformation(
+            information: _headerInfoEntry!),
+        entryList: _playlist);
   }
 
   EntryInformation? _parseInfoRow(String line, FileTypeHeader? fileType) {

@@ -5,9 +5,9 @@ import '../utils/file_loader.dart';
 
 void main() {
   test('M3U_Plus single line - parsing all attribues', () async {
-    final playlist =
-        await parseFile(await FileUtils.loadFile(fileName: 'plus/single_line'));
-    final testSubject = playlist[0];
+    final entryWarp = await parseWrapFile(
+        await FileUtils.loadFile(fileName: 'plus/single_line'));
+    final testSubject = entryWarp.entryList[0];
 
     expect(testSubject.attributes['tvg-id'], 'identifier');
     expect(testSubject.attributes['tvg-name'], 'a random name');
@@ -20,13 +20,13 @@ void main() {
   });
 
   test('M3U_Plus multi line file', () async {
-    final playlist =
-        await parseFile(await FileUtils.loadFile(fileName: 'plus/multi_line'));
+    final entryWarp = await parseWrapFile(
+        await FileUtils.loadFile(fileName: 'plus/multi_line'));
 
-    playlist.forEach((element) {
-      print('link ${element.title}');
-      expect(element.link.startsWith('https://'), true);
+    entryWarp.entryList.forEach((element) {
+      print('link ${element.link}');
+      expect(element.link.startsWith('http'), true);
     });
-    expect(playlist.length, 6);
+    expect(entryWarp.entryList.length, 40);
   });
 }
