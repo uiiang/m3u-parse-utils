@@ -49,7 +49,7 @@ class M3uParser {
   /// Can [throws] [InvalidFormatException] if the file is not supported.
   Future<List<M3uGenericEntry>> _parse(String source) async {
     LineSplitter.split(source).forEach(_parseLine);
-    return _playlist!;
+    return _playlist;
   }
 
   Future<M3uGenericEntryWarp> _parseWarp(String source) async {
